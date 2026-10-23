@@ -39,6 +39,22 @@
     return false;
   }
 
+  // Decorative bullet markers: chat UIs (e.g. Yuanbao) often render list bullets as
+  // real spans ("•" inside .ybc-li-component_dot) instead of CSS ::marker, so they
+  // leak into the copied text. Drop any inline-ish element whose entire text is
+  // bullet glyphs when it looks like a marker (class hint) or sits inside a list item.
+  const BULLET_ONLY_RE = /^[\s•◦▪‣·●○◆◇∙⦁*+–—-]+$/;
+  const MARKER_CLASS_RE = /(dot|bullet|marker|disc)/i;
+
+  function isBulletMarker(el) {
+    const tag = el.tagName.toLowerCase();
+    if (tag !== "span" && tag !== "div" && tag !== "i" && tag !== "b") return false;
+    const text = el.textContent || "";
+    if (!BULLET_ONLY_RE.test(text)) return false;
+    const cls = (typeof el.className === "string" ? el.className : "") || "";
+    return MARKER_CLASS_RE.test(cls) || !!(el.closest && el.closest("li"));
+  }
+
   function isHidden(el) {
     // KaTeX/MathJax helper layers are visually hidden, but math elements are intercepted
     // by the math module first and never reach here.
@@ -275,6 +291,7 @@
 
     if (isNoise(el)) return "";
     if (isHidden(el)) return "";
+    if (isBulletMarker(el)) return "";
 
     // Open Shadow DOM: the real content lives in the shadow tree, not in light-DOM
     // children. Serialize the shadow root instead (some chat UIs use web components).
@@ -469,7 +486,7 @@
     if (MathMod && (MathMod.isMathRoot(el) || MathMod.isMathWrapper(el))) {
       return serializeNode(el, depth);
     }
-    if (isNoise(el) || isHidden(el)) return "";
+    if (isNoise(el) || isHidden(el) || isBulletMarker(el)) return "";
 
     // Code blocks: partial selection outputs the whole block (half a block is rarely wanted)
     if (tag === "pre") {

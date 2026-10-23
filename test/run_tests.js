@@ -223,6 +223,14 @@ check("Yuanbao inline math: data-latex without --display → $...$", `
   { not: { has: "H(0)" } },
 ]);
 
+check("Yuanbao custom list: decorative bullet spans dropped, content div unwrapped", `
+<ul class="ybc-ul-component"><li class="ybc-li-component ybc-li-component_ul"><span class="ybc-li-component__dot-wp"><span class="ybc-li-component_dot">•</span></span><span class="ybc-li-component_content"><div class="ybc-p">content–content</div>
+</span></li><li class="ybc-li-component ybc-li-component_ul"><span class="ybc-li-component__dot-wp"><span class="ybc-li-component_dot">•</span></span><span class="ybc-li-component_content"><div class="ybc-p">content–position</div>
+</span></li><li class="ybc-li-component ybc-li-component_ul"><span class="ybc-li-component__dot-wp"><span class="ybc-li-component_dot">•</span></span><span class="ybc-li-component_content"><div class="ybc-p">position–position</div>
+</span></li></ul>`, [
+  { equals: "- content–content\n- content–position\n- position–position" },
+]);
+
 check("KaTeX without annotation picks up data-latex from ancestor wrapper", `
 <span data-latex="\\alpha + \\beta"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base">α+β</span></span></span></span>`, [
   { has: "$\\alpha + \\beta$" },

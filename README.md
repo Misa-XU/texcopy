@@ -10,82 +10,93 @@
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue?style=flat-square"/>
 </p>
 
-<p align="center">
-  <strong>English</strong> · <a href="#中文说明">中文</a>
-</p>
-
 ---
 
 Ever tried copying an AI answer with math in it — and got `x=−b±√b2−4ac2a` garbage instead of the formula? Or lost every heading, code fence and table on the way?
 
-**TeXCopy** fixes that. Select any content on any page, right-click → **Copy as Markdown**, and get faithful, clean Markdown in your clipboard:
+在 AI 聊天页面复制带公式的回答，粘贴出来经常是 `x=−b±√b2−4ac2a` 这样的乱码，标题、代码块、表格也全丢了格式。
 
-- 🧮 **Math preserved as LaTeX** — KaTeX formulas are recovered *losslessly* from their embedded source annotations; MathJax falls back to a MathML→TeX converter. Inline `$…$`, display `$$…$$`.
-- 💻 **Real code blocks** — fenced, with language tags, no line-number or UI garbage.
-- 📋 **Full structure** — headings, bold/italic, nested lists, GFM tables, blockquotes, links, horizontal rules.
-- 🧹 **Noise filtered out** — copy/like/regenerate buttons, toolbars, `aria-hidden` widgets never make it into your clipboard.
-- ✂️ **Partial selection works** — select half a sentence, half a table or part of a list: only what you selected is copied (formulas and code blocks stay whole, because half a formula is meaningless).
-- 🔒 **Zero page intrusion** — TeXCopy never touches `Ctrl+C`. It only runs when *you* click the context-menu item.
+**TeXCopy** fixes that. Select any content on any page, right-click → **Copy as Markdown**, and get faithful, clean Markdown in your clipboard.
+
+**TeXCopy（复制增强器）**解决这个问题：在任意网页选中内容 → 右键 → **Copy as Markdown**，剪贴板里就是干净、忠实的 Markdown。
 
 <p align="center">
   <img src="assets/demo.svg" width="820" alt="Demo: select an AI answer, right-click Copy as Markdown, paste clean Markdown"/>
 </p>
 
-## Before / After
+## ✨ Features · 功能特性
 
-| What you see on the page | What native copy gives you | What TeXCopy gives you |
+- 🧮 **Math preserved as LaTeX** — KaTeX formulas are recovered *losslessly* from their embedded source annotations; MathJax falls back to a MathML→TeX converter. Inline `$…$`, display `$$…$$`.
+  **公式无损还原为 LaTeX** —— KaTeX 直接从内嵌源码注解读取（元宝 / ChatGPT / Claude / Kimi 等）；MathJax 走 MathML→TeX 子集转换（DeepSeek 等）。行内 `$…$`，块级 `$$…$$`。
+
+- 💻 **Real code blocks** — fenced, with language tags, no line-number or UI garbage.
+  **代码块**还原为带语言标记的围栏形式，无行号、无按钮文字混入。
+
+- 📋 **Full structure** — headings, bold/italic, nested lists, GFM tables, blockquotes, links, horizontal rules.
+  **完整结构**：标题、加粗/斜体、嵌套列表、GFM 表格、引用、链接、分隔线。
+
+- 🧹 **Noise filtered out** — copy/like/regenerate buttons, toolbars, `aria-hidden` widgets never make it into your clipboard.
+  **自动过滤噪音**：复制/点赞/重新生成按钮、工具条、`aria-hidden` 元素统统不进剪贴板。
+
+- ✂️ **Partial selection works** — select half a sentence, half a table or part of a list: only what you selected is copied (formulas and code blocks stay whole, because half a formula is meaningless).
+  **支持部分选中**：选中半句话、半个表格、列表的一部分，只输出选区内容（公式和代码块保持完整——半个公式没有意义）。
+
+- 🔒 **Zero page intrusion** — TeXCopy never touches `Ctrl+C`. It only runs when *you* click the context-menu item.
+  **对页面零侵入**：不拦截 `Ctrl+C`，只在你主动点击右键菜单时工作。
+
+## 🔍 Before / After · 效果对比
+
+| On the page 页面上 | Native copy 原生复制 | TeXCopy |
 |---|---|---|
-| Rendered fraction | `x=−b±√b2−4ac2a` | `$$x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}$$` |
-| Python code block | flattened one-liner with UI text | ` ```python … ``` ` with newlines intact |
-| Comparison table | tab-separated mush | proper GFM pipe table |
-| Headings & lists | plain lines | `##`, `-`, `1.` markers preserved |
+| Rendered fraction 渲染后的分式 | `x=−b±√b2−4ac2a` | `$$x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}$$` |
+| Python code block 代码块 | flattened one-liner with UI text 压扁成一行还混入按钮文字 | ` ```python … ``` ` with newlines intact 换行完整 |
+| Comparison table 对比表格 | tab-separated mush 制表符糊成一团 | proper GFM pipe table 标准 GFM 管道表格 |
+| Headings & lists 标题和列表 | plain lines 纯文本行 | `##`, `-`, `1.` markers preserved 标记全保留 |
 
-## Install
+## 📦 Install · 安装
 
-TeXCopy is not on the Chrome Web Store (yet) — load it unpacked, it takes 20 seconds:
+Not on the Chrome Web Store (yet) — load it unpacked, it takes 20 seconds.
+暂未上架 Chrome 应用商店——本地加载只需 20 秒。
 
 ```bash
 git clone https://github.com/Misa-XU/texcopy.git
 ```
 
-1. Open `chrome://extensions`
-2. Enable **Developer mode** (top-right toggle)
-3. Click **Load unpacked** and select the `texcopy` folder
-4. Done — no configuration, no sign-in.
+1. Open `chrome://extensions` · 打开 `chrome://extensions`
+2. Enable **Developer mode** (top-right toggle) · 开启右上角**开发者模式**
+3. Click **Load unpacked** and select the `texcopy` folder · 点击**加载已解压的扩展程序**，选择 `texcopy` 目录
+4. Done — no configuration, no sign-in · 完成，无需任何配置
 
 > Works in any Chromium browser: Chrome, Edge, Brave, Arc, Opera…
+> 适用于所有 Chromium 系浏览器。
 
-## Usage
+## 🚀 Usage · 使用
 
-1. Select content on any page (an AI answer, a blog post, docs…)
-2. Right-click → **Copy as Markdown**
-3. Paste anywhere. A green toast confirms success.
+1. Select content on any page (an AI answer, a blog post, docs…) · 在任意网页选中内容（AI 回答、博客、文档……）
+2. Right-click → **Copy as Markdown** · 右键 → **Copy as Markdown**
+3. Paste anywhere. A green toast confirms success. · 到任意地方粘贴，绿色提示表示成功。
 
-**Where it shines:** ChatGPT · Claude · Tencent Yuanbao (元宝) · Kimi · DeepSeek · Gemini · Zhihu · CSDN · Juejin · any site rendering KaTeX/MathJax — and honestly, any HTML page.
+**Where it shines · 最佳场景**：ChatGPT · Claude · Tencent Yuanbao (元宝) · Kimi · DeepSeek · Gemini · Zhihu 知乎 · CSDN · Juejin 掘金 — and honestly, any HTML page · 以及任何普通网页。
 
-## How it works
+## ⚙️ How it works · 工作原理
 
-```mermaid
-flowchart LR
-    A["Context menu<br/>(selection)"] --> B["background.js<br/>service worker"]
-    B -->|"ensure content script<br/>(inject on demand)"| C["content script"]
-    C --> D["serializer.js<br/>range-aware DOM walk"]
-    D --> E["math.js<br/>KaTeX / MathJax → LaTeX"]
-    D --> F["Markdown string"]
-    F --> G{"clipboard<br/>write in page"}
-    G -->|ok| H["✓ toast"]
-    G -->|denied<br/>(no user gesture)| I["offscreen document<br/>extension clipboard"]
-    I --> H
-```
-
-Key engineering decisions:
+<p align="center">
+  <img src="assets/architecture.svg" width="900" alt="TeXCopy architecture: context menu → background service worker → content script serializer + math recovery → three-tier clipboard write"/>
+</p>
 
 - **Live-DOM range walking.** Instead of `Range.cloneContents()` (detached nodes have no layout or computed styles — a classic source of subtle bugs), the serializer walks the *live* DOM along the range boundaries using `comparePoint`, slicing text nodes at the exact selection offsets.
-- **Lossless math for KaTeX.** KaTeX embeds the original TeX in `<annotation encoding="application/x-tex">`; TeXCopy reads it back verbatim. For MathJax without annotations, a subset MathML→TeX converter handles fractions, sub/superscripts, roots, big operators, Greek letters and more — with graceful fallbacks so content is never silently lost.
-- **Three-tier clipboard strategy.** A context-menu click grants no user gesture to the page, so `navigator.clipboard` may be denied. TeXCopy falls back to `execCommand`, then to an MV3 **offscreen document** holding the extension's own clipboard permission — the most reliable channel.
-- **On-demand injection.** Pages opened before the extension was installed get the content script injected via `chrome.scripting` (authorized by `activeTab` from the menu click). No refresh needed.
+  **活 DOM 按选区遍历**：不用 `cloneContents()`（克隆节点没有布局和计算样式，是一类经典 bug 的根源），而是用 `comparePoint` 沿选区边界在活 DOM 上遍历，文本节点按选区偏移精确切片。
 
-## Project layout
+- **Lossless math for KaTeX.** KaTeX embeds the original TeX in `<annotation encoding="application/x-tex">`; TeXCopy reads it back verbatim. For MathJax without annotations, a subset MathML→TeX converter handles fractions, sub/superscripts, roots, big operators, Greek letters and more — with graceful fallbacks so content is never silently lost.
+  **KaTeX 公式无损还原**：KaTeX 会在 `<annotation encoding="application/x-tex">` 中保留原始 TeX，直接读取即可；MathJax 无注解时走子集级 MathML→TeX 转换（分数、上下标、根号、大型运算符、希腊字母等），多级兜底确保内容永不丢失。
+
+- **Three-tier clipboard strategy.** A context-menu click grants no user gesture to the page, so `navigator.clipboard` may be denied. TeXCopy falls back to `execCommand`, then to an MV3 **offscreen document** holding the extension's own clipboard permission — the most reliable channel.
+  **三级剪贴板保障**：右键菜单点击不给页面用户手势，`navigator.clipboard` 可能被拒；TeXCopy 依次降级到 `execCommand`、再到 MV3 **offscreen document**（持扩展自身剪贴板权限，最可靠）。
+
+- **On-demand injection.** Pages opened before the extension was installed get the content script injected via `chrome.scripting` (authorized by `activeTab` from the menu click). No refresh needed.
+  **按需注入**：装扩展前已打开的页面，通过 `chrome.scripting` + `activeTab`（由菜单点击授权）即时注入，无需刷新。
+
+## 📁 Project layout · 项目结构
 
 ```
 ├── manifest.json        # MV3 manifest
@@ -96,102 +107,37 @@ Key engineering decisions:
 │   ├── serializer.js    # range-aware DOM → Markdown walker (zero deps)
 │   ├── math.js          # KaTeX / MathJax → LaTeX recovery
 │   └── clipboard.js     # in-page clipboard write with fallbacks
-├── assets/              # banner + animated demo (SVG)
+├── assets/              # banner · animated demo · architecture diagram (SVG)
 ├── icons/               # generated by tools/gen_icons.js
 └── test/
     ├── run_tests.js     # jsdom test suite (18 tests)
     └── test_page.html   # manual browser test page (KaTeX via CDN)
 ```
 
-## Development
+## 🛠 Development · 开发
 
-No build step. No dependencies at runtime.
+No build step. No runtime dependencies. 无构建步骤，运行时零依赖。
 
 ```bash
-# run the test suite (jsdom)
-cd test && npm install jsdom --no-audit   # first time only
-node test/run_tests.js                    # from repo root
+# run the test suite (jsdom) · 运行测试
+cd test && npm install jsdom --no-audit   # first time only · 仅首次
+node test/run_tests.js                    # from repo root · 在仓库根目录运行
 
-# regenerate icons
+# regenerate icons · 重新生成图标
 node tools/gen_icons.js
 
-# manual browser test: open test/test_page.html and follow the yellow banner
+# manual browser test · 手动浏览器测试
+# open test/test_page.html and follow the yellow banner · 打开 test/test_page.html 按页面顶部黄色提示操作
 ```
 
-## Roadmap
+## 🗺 Roadmap · 路线图
 
-- [ ] Rich-text (HTML) clipboard output alongside Markdown
-- [ ] Popup with per-site preferences
-- [ ] Copy a whole AI message with one click (no selection needed)
-- [ ] Firefox port
-- [ ] Chrome Web Store listing
+- [ ] Rich-text (HTML) clipboard output alongside Markdown · 剪贴板同时写入富文本（HTML）格式
+- [ ] Popup with per-site preferences · Popup 设置界面（按站点开关）
+- [ ] Copy a whole AI message with one click (no selection needed) · 一键复制整条 AI 消息（免选中）
+- [ ] Firefox port · Firefox 版本
+- [ ] Chrome Web Store listing · 上架 Chrome 应用商店
 
-## License
+## 📄 License · 许可证
 
-[MIT](LICENSE)
-
----
-
-<a id="中文说明"></a>
-# 中文说明
-
-<p align="center">
-  <a href="#top">English</a> · <strong>中文</strong>
-</p>
-
-在 AI 聊天页面复制带公式的回答，粘贴出来经常是 `x=−b±√b2−4ac2a` 这样的乱码，标题、代码块、表格也全丢了格式。
-
-**TeXCopy（复制增强器）**解决这个问题：在任意网页选中内容 → 右键 → **Copy as Markdown**，剪贴板里就是干净、忠实的 Markdown：
-
-- 🧮 **公式无损还原为 LaTeX**——KaTeX 直接从内嵌源码注解读取（元宝 / ChatGPT / Claude / Kimi 等）；MathJax 走 MathML→TeX 子集转换（DeepSeek 等）。行内 `$…$`，块级 `$$…$$`
-- 💻 **代码块**带语言标记的围栏形式，无行号、无按钮文字混入
-- 📋 **完整结构**：标题、加粗/斜体、嵌套列表、GFM 表格、引用、链接、分隔线
-- 🧹 **自动过滤噪音**：复制/点赞/重新生成按钮、工具条、`aria-hidden` 元素统统不进剪贴板
-- ✂️ **支持部分选中**：选中半句话、半个表格、列表的一部分，只输出选区内容（公式和代码块保持完整——半个公式没有意义）
-- 🔒 **对页面零侵入**：不拦截 `Ctrl+C`，只在你主动点击右键菜单时工作
-
-## 安装
-
-暂未上架 Chrome 应用商店，本地加载只需 20 秒：
-
-1. 克隆或下载本仓库
-2. 打开 `chrome://extensions`，开启右上角**开发者模式**
-3. 点击**加载已解压的扩展程序**，选择仓库根目录
-4. 完成，无需任何配置
-
-> 适用于所有 Chromium 系浏览器：Chrome、Edge、Brave、Arc、Opera……
-
-## 使用
-
-选中网页内容 → 右键 → **Copy as Markdown** → 到任意地方粘贴，右下角绿色提示表示成功。
-
-**最佳场景**：元宝、ChatGPT、Claude、Kimi、DeepSeek、Gemini、知乎、CSDN、掘金等一切渲染 KaTeX/MathJax 的页面——以及任何普通 HTML 页面。
-
-## 技术要点
-
-- **活 DOM 按选区遍历**：不用 `cloneContents()`（克隆节点没有布局和计算样式，是一类经典 bug 的根源），而是用 `comparePoint` 沿选区边界在活 DOM 上遍历，文本节点按选区偏移精确切片
-- **三级剪贴板保障**：页面内 `navigator.clipboard` → `execCommand` 降级 → MV3 **offscreen document**（持扩展自身剪贴板权限，无需用户手势，最可靠）
-- **按需注入**：装扩展前已打开的页面，通过 `chrome.scripting` + `activeTab`（由菜单点击授权）即时注入，无需刷新
-
-## 开发
-
-无构建步骤，运行时零依赖。
-
-```bash
-cd test && npm install jsdom --no-audit   # 仅首次
-node test/run_tests.js                    # 仓库根目录运行，18 项测试
-node tools/gen_icons.js                   # 重新生成图标
-# 手动测试：浏览器打开 test/test_page.html，按页面顶部黄色提示操作
-```
-
-## 路线图
-
-- [ ] 剪贴板同时写入富文本（HTML）格式
-- [ ] Popup 设置界面（按站点开关）
-- [ ] 一键复制整条 AI 消息（免选中）
-- [ ] Firefox 版本
-- [ ] 上架 Chrome 应用商店
-
-## 许可证
-
-[MIT](LICENSE)
+[MIT](LICENSE) © 2026 Misa-XU

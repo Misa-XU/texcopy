@@ -191,6 +191,46 @@ check("mixed AI answer: heading + math + code + table + list", `
   { not: { has: "Δ=b2−4ac" } },
 ]);
 
+// ---------- native MathML & Shadow DOM ----------
+
+check("Native MathML (Chromium MathML Core) → $...$", `
+<p>Let <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>a</mi><mo>+</mo><mfrac><mi>b</mi><mn>2</mn></mfrac></math> be positive.</p>`, [
+  { has: "$a+\\frac{b}{2}$" },
+]);
+
+check("Native MathML with display=block → $$...$$", `
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msup><mi>x</mi><mn>2</mn></msup></math>`, [
+  { has: "$$\nx^2\n$$" },
+]);
+
+check("Native MathML prefers embedded TeX annotation", `
+<p><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>x</mi><mn>2</mn></msup><annotation encoding="application/x-tex">x^{2}</annotation></semantics></math></p>`, [
+  { has: "$x^{2}$" },
+]);
+
+// Shadow DOM needs manual DOM setup, so it gets its own block instead of check()
+(function shadowDomTest() {
+  const name = "open Shadow DOM content is serialized";
+  try {
+    const window = makeDom('<div id="host"></div>');
+    const doc = window.document;
+    const host = doc.getElementById("host");
+    const shadow = host.attachShadow({ mode: "open" });
+    shadow.innerHTML = "<p>shadow <strong>content</strong> with <code>code()</code></p>";
+    const md = window.CopyAsMarkdownSerializer.serializeElement(host).trim();
+    if (md.includes("shadow **content** with `code()`")) {
+      console.log(`✓ ${name}`);
+      passed++;
+    } else {
+      console.error(`✗ ${name}\n  ---- actual ----\n${md}\n  ----------------`);
+      failed++;
+    }
+  } catch (err) {
+    console.error(`✗ ${name}\n  threw: ${err.stack}`);
+    failed++;
+  }
+})();
+
 // ---------- Range (selection) serialization ----------
 
 function checkRange(name, html, setupRange, assertions) {

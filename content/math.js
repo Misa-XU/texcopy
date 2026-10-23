@@ -256,6 +256,8 @@
     if (!(el instanceof Element)) return false;
     const tag = el.tagName.toLowerCase();
     if (tag === "mjx-container") return true;
+    // Native MathML (Chromium MathML Core): sites may emit raw <math> without KaTeX/MathJax
+    if (tag === "math") return true;
     if (el.classList.contains("katex")) return true;
     // MathJax v2 legacy
     if (el.classList.contains("MathJax") || el.classList.contains("MathJax_SVG")) return true;
@@ -287,6 +289,17 @@
       const parent = el.parentElement;
       display = !!(parent && parent.classList.contains("katex-display"));
       latex = katexToLatex(el);
+    } else if (tag === "math") {
+      // Native MathML: prefer an embedded TeX annotation, else convert the tree
+      const ann = el.querySelector(
+        'annotation[encoding="application/x-tex"], annotation[encoding="TeX"]'
+      );
+      if (ann && ann.textContent.trim()) {
+        latex = ann.textContent.trim();
+      } else {
+        latex = mmlToTex(el).trim();
+      }
+      display = el.getAttribute("display") === "block";
     } else if (cls.contains("MathJax") || cls.contains("MathJax_SVG")) {
       // MathJax v2
       const script = el.previousElementSibling;

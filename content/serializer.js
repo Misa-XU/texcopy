@@ -262,6 +262,16 @@
     if (isNoise(el)) return "";
     if (isHidden(el)) return "";
 
+    // Open Shadow DOM: the real content lives in the shadow tree, not in light-DOM
+    // children. Serialize the shadow root instead (some chat UIs use web components).
+    if (el.shadowRoot) {
+      const inner = serializeChildren(el.shadowRoot, depth);
+      if (isBlock(el)) {
+        return inner.trim() ? "\n\n" + inner.trim() + "\n\n" : "";
+      }
+      return inner;
+    }
+
     switch (tag) {
       case "br":
         return "\n";

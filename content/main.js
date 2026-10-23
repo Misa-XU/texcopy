@@ -53,17 +53,35 @@
     }
   }
 
+  function hasSelection() {
+    const sel = window.getSelection();
+    return !!(sel && sel.rangeCount > 0 && !sel.isCollapsed);
+  }
+
   function buildMarkdown(fallbackText) {
     let markdown = "";
     const sel = window.getSelection();
     if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+      const range = sel.getRangeAt(0);
+      console.info(
+        "[TeXCopy] selection:",
+        "ranges=" + sel.rangeCount,
+        "chars=" + (sel.toString() || "").length,
+        "container=",
+        range.commonAncestorContainer
+      );
       try {
-        markdown = window.CopyAsMarkdownSerializer.serializeRange(sel.getRangeAt(0));
+        markdown = window.CopyAsMarkdownSerializer.serializeRange(range);
       } catch (err) {
         console.error("[TeXCopy] serialization failed:", err);
       }
     }
     if ((!markdown || !markdown.trim()) && fallbackText) {
+      console.warn(
+        "[TeXCopy] serializer produced no output, falling back to plain selectionText (" +
+          fallbackText.length +
+          " chars)"
+      );
       markdown = fallbackText;
     }
     return markdown || "";
@@ -76,13 +94,24 @@
       return { ok: false, markdown: "" };
     }
 
+    console.info("[TeXCopy] markdown ready (" + markdown.length + " chars)");
     const ok = await window.CopyAsMarkdownClipboard.writeText(markdown);
     if (ok) {
       showToast("Copied as Markdown ✓", true);
+    } else {
+      // On failure, don't toast here: the background retries via offscreen and
+      // reports the outcome back through the "copy-result" message.
+      console.warn("[TeXCopy] in-page clipboard write failed; background will retry via offscreen");
     }
-    // On failure, don't toast here: the background retries via offscreen and
-    // reports the outcome back through the "copy-result" message.
     return { ok, markdown };
+  }
+
+  // Register this frame with the background so it can target the frame that
+  // actually holds the selection (chat UIs sometimes live in iframes).
+  try {
+    chrome.runtime.sendMessage({ type: "frame-ready" }).catch(() => {});
+  } catch (e) {
+    /* extension context invalidated (e.g. after reload) — ignore */
   }
 
   chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
@@ -90,6 +119,11 @@
 
     if (msg.type === "ping") {
       sendResponse({ pong: true });
+      return false;
+    }
+
+    if (msg.type === "query-selection") {
+      sendResponse({ hasSelection: hasSelection() });
       return false;
     }
 

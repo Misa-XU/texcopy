@@ -127,6 +127,20 @@ check("code containing ``` upgrades to a 4-backtick fence", `
   { has: "````js" },
 ]);
 
+check("layout <pre> wrapper (rich content inside) is NOT fenced as one code block", `
+<pre class="msg-content"><h3>Title</h3><p>Para with <span class="katex"><span class="katex-mathml"><math><semantics><annotation encoding="application/x-tex">a^2</annotation></semantics></math></span><span class="katex-html">a2</span></span> math.</p><ul><li>item</li></ul><pre><code class="language-js">real_code();</code></pre></pre>`, [
+  { has: "### Title" },
+  { has: "Para with $a^2$ math." },
+  { has: "- item" },
+  { has: "```js\nreal_code();\n```" }, // the nested REAL code block still fenced
+]);
+
+check("plain <pre> without <code> child is still a code block", `
+<pre>line one
+line two</pre>`, [
+  { has: "```\nline one\nline two\n```" },
+]);
+
 check("nested unordered/ordered lists (with start offset)", `
 <ul>
   <li>First item</li>

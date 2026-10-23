@@ -97,6 +97,20 @@
 
   // ---------- code blocks ----------
 
+  // A <pre> is only a real code block when it holds plain text or a <code> child.
+  // Some sites (e.g. chat UIs preserving whitespace) wrap an entire rich message in
+  // <pre> — those must be serialized as regular content, not fenced as one huge
+  // code block. Rich-content markers: headings, paragraphs, tables, lists, quotes,
+  // and any math (KaTeX / MathJax / native MathML).
+  const RICH_CONTENT_SELECTOR =
+    "h1,h2,h3,h4,h5,h6,p,table,ul,ol,blockquote,.katex,mjx-container,math";
+
+  function isRealCodeBlock(pre) {
+    // Any rich-content descendant (even alongside a <code>) means this <pre>
+    // wraps more than code — descend into it instead of fencing the whole thing.
+    return !pre.querySelector(RICH_CONTENT_SELECTOR);
+  }
+
   function extractCodeLang(pre) {
     const code = pre.querySelector("code") || pre;
     const sources = [code.className, pre.className];
@@ -201,7 +215,7 @@
             else inline += "\n" + indent + "  " + ptxt;
             continue;
           }
-          if (t === "pre") {
+          if (t === "pre" && isRealCodeBlock(child)) {
             nested += "\n" + indent + "  " + serializePre(child).trim().split("\n").join("\n" + indent + "  ") + "\n";
             continue;
           }
@@ -278,7 +292,9 @@
       case "hr":
         return "\n\n---\n\n";
       case "pre":
-        return serializePre(el);
+        if (isRealCodeBlock(el)) return serializePre(el);
+        // layout <pre> wrapper around rich content: treat as a generic block container
+        return "\n\n" + serializeChildren(el, depth).trim() + "\n\n";
       case "blockquote":
         return serializeBlockquote(el);
       case "table":
@@ -456,7 +472,11 @@
     if (isNoise(el) || isHidden(el)) return "";
 
     // Code blocks: partial selection outputs the whole block (half a block is rarely wanted)
-    if (tag === "pre") return serializePre(el);
+    if (tag === "pre") {
+      if (isRealCodeBlock(el)) return serializePre(el);
+      const inner = serializeChildrenInRange(el, range, depth);
+      return inner.trim() ? "\n\n" + inner.trim() + "\n\n" : "";
+    }
     // Tables: filter by row
     if (tag === "table") return serializeTable(el, range);
     // Lists: filter by li

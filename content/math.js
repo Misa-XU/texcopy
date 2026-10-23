@@ -212,6 +212,13 @@
 
   // el: a .katex element (or .katex-display > .katex)
   function katexToLatex(el) {
+    // Some sites (e.g. Tencent Yuanbao) strip KaTeX's MathML/annotation layer and
+    // keep the original TeX in a data-latex attribute on a wrapper span instead.
+    const holder = el.closest && el.closest("[data-latex]");
+    if (holder) {
+      const v = holder.getAttribute("data-latex");
+      if (v && v.trim()) return v.trim();
+    }
     const ann = el.querySelector('annotation[encoding="application/x-tex"]');
     if (ann && ann.textContent.trim()) {
       return ann.textContent.trim();
@@ -258,6 +265,9 @@
     if (tag === "mjx-container") return true;
     // Native MathML (Chromium MathML Core): sites may emit raw <math> without KaTeX/MathJax
     if (tag === "math") return true;
+    // Site wrappers carrying the original TeX in an attribute (e.g. Yuanbao's
+    // <span class="ybc-markdown-katex" data-latex="…">)
+    if (el.hasAttribute && el.hasAttribute("data-latex")) return true;
     if (el.classList.contains("katex")) return true;
     // MathJax v2 legacy
     if (el.classList.contains("MathJax") || el.classList.contains("MathJax_SVG")) return true;
@@ -278,6 +288,21 @@
 
     const tag = el.tagName.toLowerCase();
     const cls = el.classList;
+
+    // Site wrappers carrying the original TeX in an attribute (e.g. Yuanbao:
+    // <span class="ybc-markdown-katex ybc-markdown-katex--display" data-latex="…">).
+    // Check first — it's the most direct source when present.
+    if (el.hasAttribute && el.hasAttribute("data-latex")) {
+      const v = el.getAttribute("data-latex");
+      if (v && v.trim()) {
+        const className = typeof el.className === "string" ? el.className : "";
+        const disp =
+          /(^|[\s-])display([\s-]|$)/i.test(className) ||
+          className.includes("--display") ||
+          !!el.querySelector(".katex-display");
+        return wrapLatex(v.trim(), disp);
+      }
+    }
 
     if (tag === "mjx-container") {
       latex = mathjaxToLatex(el);
@@ -317,10 +342,16 @@
       if (ann) latex = ann.textContent.trim();
     }
 
+    return wrapLatex(latex, display);
+  }
+
+  /** Wrap a LaTeX string for Markdown output ($…$ inline, $$…$$ display). */
+  function wrapLatex(latex, display) {
     if (latex == null || latex === "") return null;
 
     // Strip \[ \] / \( \) wrappers MathJax sometimes keeps
     latex = latex.trim();
+    if (!latex) return null;
     if (latex.startsWith("\\[") && latex.endsWith("\\]")) {
       latex = latex.slice(2, -2).trim();
       display = true;

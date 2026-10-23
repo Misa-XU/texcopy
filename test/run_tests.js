@@ -205,6 +205,29 @@ check("mixed AI answer: heading + math + code + table + list", `
   { not: { has: "Δ=b2−4ac" } },
 ]);
 
+// ---------- Tencent Yuanbao style (data-latex attribute, no annotation layer) ----------
+
+// Real-world structure captured from yuanbao.tencent.com:
+// display math wrapped in <pre class="ybc-pre-component">, KaTeX without the
+// MathML/annotation layer, original TeX kept in data-latex on the wrapper span.
+check("Yuanbao display math: <pre> wrapper + data-latex → $$...$$ (not a code fence)", `
+<pre class="ybc-pre-component"><span class="ybc-markdown-katex ybc-markdown-katex--display" data-latex="H^{(0)} \\in \\mathbb{R}^{n\\times d}"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="mord">H(0)∈Rn×d</span></span></span></span></span></span></pre>`, [
+  { has: "$$\nH^{(0)} \\in \\mathbb{R}^{n\\times d}\n$$" },
+  { not: { has: "```" } },
+  { not: { has: "H(0)∈Rn×d" } },
+]);
+
+check("Yuanbao inline math: data-latex without --display → $...$", `
+<p>Hidden state <span class="ybc-markdown-katex" data-latex="H^{(0)}"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base">H(0)</span></span></span></span> is initialized.</p>`, [
+  { has: "$H^{(0)}$" },
+  { not: { has: "H(0)" } },
+]);
+
+check("KaTeX without annotation picks up data-latex from ancestor wrapper", `
+<span data-latex="\\alpha + \\beta"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base">α+β</span></span></span></span>`, [
+  { has: "$\\alpha + \\beta$" },
+]);
+
 // ---------- native MathML & Shadow DOM ----------
 
 check("Native MathML (Chromium MathML Core) → $...$", `

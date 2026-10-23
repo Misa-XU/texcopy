@@ -103,7 +103,7 @@
   // code block. Rich-content markers: headings, paragraphs, tables, lists, quotes,
   // and any math (KaTeX / MathJax / native MathML).
   const RICH_CONTENT_SELECTOR =
-    "h1,h2,h3,h4,h5,h6,p,table,ul,ol,blockquote,.katex,mjx-container,math";
+    "h1,h2,h3,h4,h5,h6,p,table,ul,ol,blockquote,.katex,mjx-container,math,[data-latex]";
 
   function isRealCodeBlock(pre) {
     // Any rich-content descendant (even alongside a <code>) means this <pre>

@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <clipPath id="revealClip">
+      <rect class="reveal" x="0" y="0" width="440" height="0"/>
+    </clipPath>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <style>
+    .cycle   { animation-duration: 16s; animation-iteration-count: infinite; animation-timing-function: linear; }
+    .sel     { animation-name: sel; }
+    .menu    { animation-name: menu; }
+    .menuhl  { animation-name: menuhl; }
+    .toast   { animation-name: toast; }
+    .reveal  { animation-name: reveal; }
+    .step1, .step2, .step3 { animation-name: steps; }
+
+    @keyframes sel {
+      0%, 3%   { opacity: 0; }
+      6%, 30%  { opacity: 1; }
+      34%,100% { opacity: 0; }
+    }
+    @keyframes menu {
+      0%, 24%  { opacity: 0; transform: translateY(-6px); }
+      28%, 44% { opacity: 1; transform: translateY(0); }
+      48%,100% { opacity: 0; }
+    }
+    @keyframes menuhl {
+      0%, 30%  { opacity: 0; }
+      33%, 43% { opacity: 1; }
+      46%,100% { opacity: 0; }
+    }
+    @keyframes toast {
+      0%, 40%  { opacity: 0; transform: translateY(8px); }
+      44%, 56% { opacity: 1; transform: translateY(0); }
+      60%,100% { opacity: 0; }
+    }
+    @keyframes reveal {
+      0%, 42%  { height: 0; }
+      80%, 94% { height: 430px; }
+      100%     { height: 0; }
+    }
+    @keyframes steps {
+      0%, 100% { opacity: 0.25; }
+    }
+    .step1 { animation: step1 16s linear infinite; }
+    .step2 { animation: step2 16s linear infinite; }
+    .step3 { animation: step3 16s linear infinite; }
+    @keyframes step1 { 0%,3%{opacity:1} 30%,100%{opacity:.25} }
+    @keyframes step2 { 0%,24%{opacity:.25} 28%,44%{opacity:1} 48%,100%{opacity:.25} }
+    @keyframes step3 { 0%,42%{opacity:.25} 46%,94%{opacity:1} 100%{opacity:.25} }
+
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace; }
+    .serifI { font-family: Georgia, 'Times New Roman', serif; font-style: italic; }
+  </style>
+
+  <!-- backdrop -->
+  <rect width="960" height="560" fill="#0b1220"/>
+
+  <!-- step captions -->
+  <g font-size="13" fill="#93c5fd" text-anchor="middle">
+    <text class="step1" x="240" y="34">① Select the AI answer</text>
+    <text class="step2" x="480" y="34">② Right-click → Copy as Markdown</text>
+    <text class="step3" x="730" y="34">③ Paste clean Markdown anywhere</text>
+  </g>
+
+  <!-- ================= LEFT: AI chat window ================= -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="56" width="400" height="468" rx="12" fill="#ffffff"/>
+    <rect x="40" y="56" width="400" height="34" rx="12" fill="#f1f5f9"/>
+    <rect x="40" y="78" width="400" height="12" fill="#f1f5f9"/>
+    <circle cx="60" cy="73" r="5" fill="#f87171"/>
+    <circle cx="76" cy="73" r="5" fill="#fbbf24"/>
+    <circle cx="92" cy="73" r="5" fill="#34d399"/>
+    <text x="240" y="78" text-anchor="middle" font-size="12" fill="#64748b">AI Chat</text>
+  </g>
+
+  <g font-size="13" fill="#1f2328">
+    <text x="64" y="126" font-size="17" font-weight="700">Solving the Quadratic Equation</text>
+
+    <text x="64" y="158">For <tspan class="serifI">ax</tspan>² + <tspan class="serifI">bx</tspan> + <tspan class="serifI">c</tspan> = 0, the discriminant is:</text>
+
+    <!-- rendered display fraction (what you SEE on the page) -->
+    <g>
+      <text x="212" y="196" text-anchor="end" class="serifI" font-size="15">x =</text>
+      <text x="280" y="190" text-anchor="middle" class="serifI" font-size="14">−b ± √(b² − 4ac)</text>
+      <line x1="222" y1="196" x2="338" y2="196" stroke="#1f2328" stroke-width="1.2"/>
+      <text x="280" y="214" text-anchor="middle" class="serifI" font-size="14">2a</text>
+    </g>
+
+    <!-- rendered table -->
+    <g font-size="11.5">
+      <rect x="64" y="236" width="170" height="24" fill="#f8fafc" stroke="#d7dde5"/>
+      <rect x="234" y="236" width="140" height="24" fill="#f8fafc" stroke="#d7dde5"/>
+      <rect x="64" y="260" width="170" height="24" fill="#fff" stroke="#d7dde5"/>
+      <rect x="234" y="260" width="140" height="24" fill="#fff" stroke="#d7dde5"/>
+      <text x="72" y="252" font-weight="600">Discriminant</text>
+      <text x="242" y="252" font-weight="600">Roots</text>
+      <text x="72" y="276" class="serifI">Δ &gt; 0</text>
+      <text x="242" y="276">two real roots</text>
+    </g>
+
+    <!-- rendered code block -->
+    <rect x="64" y="300" width="310" height="66" rx="8" fill="#0d1117"/>
+    <g class="mono" font-size="11" fill="#e6edf3">
+      <text x="76" y="320"><tspan fill="#ff7b72">def</tspan> <tspan fill="#d2a8ff">solve</tspan>(a, b, c):</text>
+      <text x="88" y="336">delta = b*b - <tspan fill="#79c0ff">4</tspan>*a*c</text>
+      <text x="88" y="352"><tspan fill="#ff7b72">return</tspan> (-b ± sqrt(delta)) / (<tspan fill="#79c0ff">2</tspan>*a)</text>
+    </g>
+
+    <text x="64" y="398">See the <tspan fill="#0969da" text-decoration="underline">Wikipedia article</tspan> for details,</text>
+    <text x="64" y="418">with <tspan font-weight="700">bold</tspan> and <tspan font-style="italic">italic</tspan> emphasis kept.</text>
+
+    <!-- message action buttons (noise: must NOT be copied) -->
+    <g font-size="11" fill="#57606a">
+      <rect x="64" y="444" width="58" height="24" rx="6" fill="#fff" stroke="#d0d7de"/>
+      <text x="76" y="460">📋 Copy</text>
+      <rect x="130" y="444" width="34" height="24" rx="6" fill="#fff" stroke="#d0d7de"/>
+      <text x="140" y="460">👍</text>
+      <rect x="172" y="444" width="86" height="24" rx="6" fill="#fff" stroke="#d0d7de"/>
+      <text x="182" y="460">↻ Regenerate</text>
+    </g>
+  </g>
+
+  <!-- selection overlay -->
+  <g class="cycle sel">
+    <rect x="58" y="108" width="330" height="322" rx="4" fill="#3b82f6" opacity="0.22"/>
+    <rect x="58" y="108" width="330" height="322" rx="4" fill="none" stroke="#3b82f6" stroke-opacity="0.6" stroke-width="1.5"/>
+  </g>
+
+  <!-- toast -->
+  <g class="cycle toast">
+    <rect x="238" y="480" width="188" height="32" rx="8" fill="#1a7f37" filter="url(#shadow)"/>
+    <text x="332" y="500" text-anchor="middle" font-size="12.5" fill="#ffffff">Copied as Markdown ✓</text>
+  </g>
+
+  <!-- ================= context menu ================= -->
+  <g class="cycle menu">
+    <g filter="url(#shadow)">
+      <rect x="330" y="300" width="216" height="164" rx="8" fill="#ffffff" stroke="#d0d7de"/>
+    </g>
+    <g font-size="12.5" fill="#1f2328">
+      <text x="348" y="326">Copy</text>
+      <text x="348" y="352">Copy link to highlight</text>
+      <line x1="338" y1="364" x2="538" y2="364" stroke="#e5e7eb"/>
+    </g>
+    <g class="cycle menuhl">
+      <rect x="338" y="370" width="200" height="28" rx="6" fill="#2563eb"/>
+      <text x="352" y="389" font-size="12.5" font-weight="600" fill="#ffffff">Copy as Markdown</text>
+      <rect x="499" y="376" width="30" height="16" rx="4" fill="#ffffff" fill-opacity="0.2"/>
+      <text x="514" y="388" text-anchor="middle" font-size="9" fill="#fff" class="mono">M↓</text>
+    </g>
+    <g font-size="12.5" fill="#1f2328">
+      <line x1="338" y1="404" x2="538" y2="404" stroke="#e5e7eb"/>
+      <text x="348" y="426">Inspect</text>
+      <text x="348" y="452">Translate selection</text>
+    </g>
+  </g>
+
+  <!-- ================= arrow ================= -->
+  <g stroke="#60a5fa" stroke-width="2.5" fill="none">
+    <path d="M 458 290 C 486 290, 486 290, 508 290" stroke-dasharray="5 5"/>
+    <path d="M 502 283 L 512 290 L 502 297" stroke-linecap="round"/>
+  </g>
+
+  <!-- ================= RIGHT: pasted Markdown ================= -->
+  <g filter="url(#shadow)">
+    <rect x="520" y="56" width="400" height="468" rx="12" fill="#0d1117"/>
+    <rect x="520" y="56" width="400" height="34" rx="12" fill="#161b22"/>
+    <rect x="520" y="78" width="400" height="12" fill="#161b22"/>
+    <circle cx="540" cy="73" r="5" fill="#f87171"/>
+    <circle cx="556" cy="73" r="5" fill="#fbbf24"/>
+    <circle cx="572" cy="73" r="5" fill="#34d399"/>
+    <text x="720" y="78" text-anchor="middle" font-size="12" fill="#8b949e" class="mono">answer.md</text>
+  </g>
+
+  <g transform="translate(520, 90)" clip-path="url(#revealClip)">
+    <g transform="translate(-520, -90)">
+      <g class="mono" font-size="12.5">
+        <text x="544" y="122" fill="#79c0ff">## Solving the Quadratic Equation</text>
+        <text x="544" y="150" fill="#e6edf3">For <tspan fill="#ffa657">$ax^2 + bx + c = 0$</tspan>, the discriminant is:</text>
+        <text x="544" y="180" fill="#d2a8ff">$$</text>
+        <text x="544" y="200" fill="#d2a8ff">x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}</text>
+        <text x="544" y="220" fill="#d2a8ff">$$</text>
+        <text x="544" y="252" fill="#e6edf3">| Discriminant | Roots |</text>
+        <text x="544" y="272" fill="#8b949e">| --- | --- |</text>
+        <text x="544" y="292" fill="#e6edf3">| $\Delta &gt; 0$ | two real roots |</text>
+        <text x="544" y="324" fill="#7ee787">```python</text>
+        <text x="544" y="344" fill="#e6edf3">def solve(a, b, c):</text>
+        <text x="544" y="364" fill="#e6edf3">    delta = b*b - 4*a*c</text>
+        <text x="544" y="384" fill="#e6edf3">    return (-b ± sqrt(delta)) / (2*a)</text>
+        <text x="544" y="404" fill="#7ee787">```</text>
+        <text x="544" y="436" fill="#e6edf3">See the <tspan fill="#79c0ff">[Wikipedia article](https://…)</tspan>,</text>
+        <text x="544" y="456" fill="#e6edf3">with <tspan fill="#ffa657" font-weight="700">**bold**</tspan> and <tspan fill="#ffa657" font-style="italic">*italic*</tspan> kept.</text>
+        <text x="544" y="488" fill="#484f58">▌</text>
+      </g>
+    </g>
+  </g>
+
+  <text x="480" y="548" text-anchor="middle" font-size="11.5" fill="#64748b">No copy buttons, no toolbars, no rendered-math garbage — just faithful Markdown + LaTeX.</text>
+</svg>

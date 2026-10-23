@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#60a5fa"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="300" fill="url(#bg)"/>
+
+  <!-- faint math backdrop -->
+  <g fill="none" stroke="#94a3b8" stroke-opacity="0.14" stroke-width="1.5" font-size="26">
+    <text x="60" y="60" fill="#94a3b8" fill-opacity="0.14" stroke="none" font-family="Georgia, 'Times New Roman', serif" font-style="italic">∫ e^(−x²) dx = √π</text>
+    <text x="820" y="70" fill="#94a3b8" fill-opacity="0.14" stroke="none" font-family="Georgia, 'Times New Roman', serif" font-style="italic">∇·E = ρ/ε₀</text>
+    <text x="880" y="250" fill="#94a3b8" fill-opacity="0.14" stroke="none" font-family="Georgia, 'Times New Roman', serif" font-style="italic">Σ aₙxⁿ</text>
+    <text x="90" y="255" fill="#94a3b8" fill-opacity="0.14" stroke="none" font-family="Georgia, 'Times New Roman', serif" font-style="italic">ζ(s) = Π (1−p⁻ˢ)⁻¹</text>
+  </g>
+
+  <!-- logo tile -->
+  <g transform="translate(330, 88)">
+    <rect x="0" y="0" width="104" height="104" rx="24" fill="url(#accent)"/>
+    <rect x="0" y="0" width="104" height="104" rx="24" fill="none" stroke="#ffffff" stroke-opacity="0.25" stroke-width="2"/>
+    <!-- clipboard + TeX glyph -->
+    <rect x="26" y="18" width="52" height="66" rx="8" fill="#0f172a" fill-opacity="0.85"/>
+    <rect x="40" y="12" width="24" height="12" rx="4" fill="#0f172a"/>
+    <text x="52" y="66" text-anchor="middle" font-size="30" font-weight="700" fill="#e0f2fe" font-family="Georgia, 'Times New Roman', serif" font-style="italic">∑x²</text>
+  </g>
+
+  <!-- wordmark -->
+  <text x="462" y="146" font-size="58" font-weight="800" fill="#f8fafc" letter-spacing="1">
+    TeX<tspan fill="url(#accent)">Copy</tspan>
+  </text>
+  <text x="464" y="186" font-size="21" fill="#cbd5e1">Copy AI answers as clean Markdown —</text>
+  <text x="464" y="214" font-size="21" fill="#cbd5e1">formulas, code blocks and tables intact.</text>
+</svg>

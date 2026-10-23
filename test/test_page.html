@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TeXCopy — Manual Test Page</title>
+<!-- KaTeX via CDN to mimic how AI sites render math. The page still works offline for non-math tests. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+         max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.7; color: #1f2328; }
+  .ai-message { border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px 24px; margin: 24px 0; background: #fafafa; }
+  .msg-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .msg-actions button { border: 1px solid #d0d7de; background: #fff; border-radius: 6px;
+                        padding: 4px 10px; cursor: pointer; font-size: 12px; color: #57606a; }
+  pre { background: #0d1117; color: #e6edf3; padding: 14px; border-radius: 8px; overflow-x: auto; }
+  table { border-collapse: collapse; } td, th { border: 1px solid #d0d7de; padding: 6px 12px; }
+  .hint { background: #fff8c5; border: 1px solid #d4a72c66; border-radius: 8px; padding: 12px 16px; font-size: 14px; }
+  blockquote { border-left: 4px solid #d0d7de; margin-left: 0; padding-left: 16px; color: #57606a; }
+</style>
+</head>
+<body>
+
+<h1>TeXCopy — Manual Test Page</h1>
+<div class="hint">
+  <strong>How to test:</strong>
+  ① Load the extension root folder at <code>chrome://extensions</code> (Developer mode → Load unpacked) →
+  ② open this page →
+  ③ select the entire "AI answer" card below with your mouse →
+  ④ right-click → <strong>Copy as Markdown</strong> →
+  ⑤ paste into any plain-text editor and compare with "Expected output".
+</div>
+
+<div class="ai-message" id="msg1">
+  <h2>Solving the Quadratic Equation</h2>
+  <p>For the equation $ax^2 + bx + c = 0$ (with $a \ne 0$), the discriminant is defined as:</p>
+  <p>$$\Delta = b^2 - 4ac$$</p>
+  <p>When $\Delta &gt; 0$ there are two distinct real roots, given by the <strong>quadratic formula</strong>:</p>
+  <p>$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</p>
+  <h3>Discriminant vs. roots</h3>
+  <table>
+    <thead><tr><th>Discriminant</th><th>Roots</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>$\Delta &gt; 0$</td><td>two distinct real roots</td><td>$x^2 - 3x + 2 = 0$</td></tr>
+      <tr><td>$\Delta = 0$</td><td>one repeated root</td><td>$x^2 - 2x + 1 = 0$</td></tr>
+      <tr><td>$\Delta &lt; 0$</td><td>a pair of complex conjugate roots</td><td>$x^2 + 1 = 0$</td></tr>
+    </tbody>
+  </table>
+  <h3>Python solution</h3>
+  <pre><code class="language-python">import cmath
+
+def solve(a, b, c):
+    """Solve ax^2 + bx + c = 0"""
+    delta = b*b - 4*a*c
+    x1 = (-b + cmath.sqrt(delta)) / (2*a)
+    x2 = (-b - cmath.sqrt(delta)) / (2*a)
+    return x1, x2
+
+print(solve(1, -3, 2))  # (2+0j), (1+0j)</code></pre>
+  <blockquote><p>Note: when $a = 0$ the equation degenerates to a linear one and must be handled separately.</p></blockquote>
+  <p>See the <a href="https://en.wikipedia.org/wiki/Quadratic_equation" title="Wikipedia">Wikipedia article</a> for more. Inline code example: <code>delta = b**2 - 4*a*c</code>.</p>
+  <ul>
+    <li>Item one with math: $e^{i\pi} + 1 = 0$</li>
+    <li>Item two with <em>italic</em> and <strong>bold</strong> text
+      <ol>
+        <li>Nested ordered item A</li>
+        <li>Nested ordered item B</li>
+      </ol>
+    </li>
+  </ul>
+  <div class="msg-actions">
+    <button class="copy-btn">📋 Copy</button>
+    <button class="like-btn">👍</button>
+    <button class="regenerate-btn">↻ Regenerate</button>
+  </div>
+</div>
+
+<h2>Expected output (excerpt)</h2>
+<pre><code>## Solving the Quadratic Equation
+
+For the equation $ax^2 + bx + c = 0$ (with $a \ne 0$), the discriminant is defined as:
+
+$$
+\Delta = b^2 - 4ac
+$$
+
+| Discriminant | Roots | Example |
+| --- | --- | --- |
+| $\Delta > 0$ | two distinct real roots | $x^2 - 3x + 2 = 0$ |
+
+```python
+import cmath
+...
+```
+
+- Item one with math: $e^{i\pi} + 1 = 0$
+- Item two with *italic* and **bold** text
+  1. Nested ordered item A
+  2. Nested ordered item B</code></pre>
+<p>The action buttons at the bottom of the card (Copy / 👍 / Regenerate) must <strong>not</strong> appear in the copied result.</p>
+
+</body>
+</html>

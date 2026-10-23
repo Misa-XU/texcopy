@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "TeXCopy — Copy as Markdown",
+  "version": "1.0.0",
+  "description": "Copy AI answers as clean Markdown. Select text on any page, right-click “Copy as Markdown”, and get faithful Markdown with LaTeX math, fenced code blocks and tables — instead of garbled rendered text.",
+  "permissions": ["contextMenus", "clipboardWrite", "offscreen", "scripting", "activeTab"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "content/math.js",
+        "content/serializer.js",
+        "content/clipboard.js",
+        "content/main.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
